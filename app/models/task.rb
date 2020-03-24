@@ -1,7 +1,7 @@
 class Task
   include ActiveModel::Model
 
-  attr_accessor :uuid, :description, :project, :due, :priority
+  attr_accessor :id, :description, :project, :due, :priority
   attr_reader   :status, :entry, :modified, :end_date, :urgency
 
   def self.all
@@ -9,8 +9,8 @@ class Task
   end
 
   def initialize(task_hash = {})
+    @abs_id      = task_hash['abs_id']
     @id          = task_hash['id']
-    @uuid        = task_hash['uuid']
     @description = task_hash['description']
     @project     = task_hash['project']
     @due         = task_hash['due']
@@ -22,8 +22,8 @@ class Task
     @urgency     = task_hash['urgency']
   end
 
-  def self.find(uuid)
-    Task.all.detect { |task| task.uuid ==  uuid }
+  def self.find(id)
+    Task.all.detect { |task| task.id ==  id }
   end
 
   def save
@@ -35,15 +35,15 @@ class Task
   end
 
   def update
-    `task #{@uuid} modify due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} #{@description}`
+    `task #{@id} modify due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} #{@description}`
   end
 
   def destroy
-    `yes | task #{@uuid} delete`
+    `yes | task #{@id} delete`
   end
 
   def done!
-    `task #{@id} done` if @id != '0'
+    `task #{@abs_id} done` if @abs_id != '0'
   end
 
   def done?
@@ -63,7 +63,7 @@ class Task
   end
 
   def persisted?
-    @uuid.present?
+    @id.present?
   end
 
   # duck typing ActiveModel::Name
@@ -94,6 +94,10 @@ class Task
           # acc.merge(key => Time.iso8601(val))
           acc.merge(key => Time.strptime(val, '%Y%m%dT%H%M%SZ') + 9.hours)
         }
+
+        # abs_id is task_warrior id
+        task_hash['abs_id'] = task_hash['id']
+        task_hash['id']     = task_hash['uuid']
 
         ::Task.new( task_hash.merge(date_converted_hash) )
       }.

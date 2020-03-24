@@ -3,7 +3,7 @@ module TasksHelper
     classes = task.done? ? 'table-success task-done' : ''
     classes = classes + ' task-deadline' if task.deadline?
 
-    content_tag :tr, id: "task-#{task.uuid}", class: classes do
+    content_tag :tr, id: "task-#{task.id}", class: classes do
       yield
     end
   end

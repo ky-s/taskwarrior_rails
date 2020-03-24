@@ -1,6 +1,6 @@
 <%= task_tr(task) do %>
   <td>
-    <%= check_box :task, :done, { id: "done-checkbox-#{task.uuid}", class: 'done-checkbox', checked: task.done? }, "true", "false" %>
+    <%= check_box :task, :done, { id: "done-checkbox-#{task.id}", class: 'done-checkbox', checked: task.done? }, "true", "false" %>
   </td>
   <td class="due">
     <%= task.due&.strftime("%Y-%m-%d") %>
@@ -10,37 +10,37 @@
   </td>
   <td>
     <%#= link_to 'Edit', edit_task_path(task), class: 'btn btn-warning' %>
-    <%#= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
   </td>
 <% end %>
 
 <script>
-  $("#done-checkbox-<%= task.uuid %>").change(function() {
-    return ajaxUpdateDone('<%= task.uuid %>', $(this).prop("checked"));
+  $("#done-checkbox-<%= task.id %>").change(function() {
+    return ajaxUpdateDone('<%= task.id %>', $(this).prop("checked"));
   });
 
   // trigger checkbox on td clicked.
-  $("td:has(#done-checkbox-<%= task.uuid %>)").click(function() {
+  $("td:has(#done-checkbox-<%= task.id %>)").click(function() {
     $(this).children('.done-checkbox').trigger('click');
   });
 
   // Stop propagation.
-  $("#done-checkbox-<%= task.uuid %>").click(function(event) {
+  $("#done-checkbox-<%= task.id %>").click(function(event) {
     event.stopPropagation();
   });
 
   if (typeof ajaxUpdateDone != 'function') {
-    function ajaxUpdateDone(uuid, done) {
+    function ajaxUpdateDone(id, done) {
       console.log('ajaxUpdateDone');
-      console.log('uuid = ' + uuid);
+      console.log('id = ' + id);
       $.ajax({
-        url: "tasks/done/" + uuid,
+        url: "tasks/done/" + id,
         type: "POST",
         dataType: 'json'
       }).then(
         data => {
-          $("#task-" + uuid).addClass("table-success");
-          $("#task-" + uuid).addClass("task-done");
+          $("#task-" + id).addClass("table-success");
+          $("#task-" + id).addClass("task-done");
         },
         error => alert("更新に失敗しました。")
       );
