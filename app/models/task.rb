@@ -8,6 +8,10 @@ class Task
     Parser.parse
   end
 
+  def self.projects
+    self.all.map { |task| task.project }.uniq
+  end
+
   def initialize(task_hash = {})
     @abs_id      = task_hash['abs_id']
     @id          = task_hash['id']
