@@ -14,9 +14,9 @@
   </td>
 <% end %>
 
-<!-- script>
+<script>
   $("#done-checkbox-<%= task.uuid %>").change(function() {
-    return ajaxUpdateDone(<%= task.uuid %>, $(this).prop("checked"));
+    return ajaxUpdateDone('<%= task.uuid %>', $(this).prop("checked"));
   });
 
   // trigger checkbox on td clicked.
@@ -30,27 +30,20 @@
   });
 
   if (typeof ajaxUpdateDone != 'function') {
-    function ajaxUpdateDone(id, done) {
+    function ajaxUpdateDone(uuid, done) {
       console.log('ajaxUpdateDone');
-      console.log('id = ' + id);
-      console.log('done = ' + done);
+      console.log('uuid = ' + uuid);
       $.ajax({
-        url: "tasks/" + id,
-        data: { task: { done: done } },
-        type: "PATCH",
+        url: "tasks/done/" + uuid,
+        type: "POST",
         dataType: 'json'
       }).then(
         data => {
-          if (done) {
-              $("#task-" + id).addClass("table-success");
-              $("#task-" + id).addClass("task-done");
-          } else {
-              $("#task-" + id).removeClass("table-success");
-              $("#task-" + id).removeClass("task-done");
-          }
+          $("#task-" + uuid).addClass("table-success");
+          $("#task-" + uuid).addClass("task-done");
         },
         error => alert("更新に失敗しました。")
       );
     }
   }
-</script -->
+</script>

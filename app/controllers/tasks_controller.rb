@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :done]
 
   # GET /tasks
   # GET /tasks.json
@@ -7,16 +7,6 @@ class TasksController < ApplicationController
     @tasks = Task.all
     @new_task = Task.new
     @show_done = false
-  end
-
-  # GET /tasks/1
-  # GET /tasks/1.json
-  def show
-  end
-
-  # GET /tasks/new
-  def new
-    @task = Task.new
   end
 
   # GET /tasks/1/edit
@@ -67,15 +57,21 @@ class TasksController < ApplicationController
     end
   end
 
+  def done
+    p @task
+    @task.done!
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
-      @task = Task.find(params[:uuid])
+      @task = Task.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def task_params
       params.require(:task)
         .permit(:description, :due, :project)
+        .tap { |p| p[:due] = p[:due].to_date }
     end
 end

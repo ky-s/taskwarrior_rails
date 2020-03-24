@@ -17,8 +17,8 @@
         <thead>
           <tr>
             <th class="th-sm" style="width: 7%"><%= label :task, :done %></th>
-            <th class="th-sm" style="width: 16%"><%= label :task, :deadline %></th>
-            <th class="th-sm"><%= label :task, :content %></th>
+            <th class="th-sm" style="width: 16%"><%= label :task, :due %></th>
+            <th class="th-sm"><%= label :task, :description %></th>
             <th class="th-sm" style="width: 15%">action</th>
           </tr>
         </thead>
@@ -48,10 +48,10 @@
 </script>
 
 <style>
-tr.task-done > td.deadline, tr.task-done > td.content {
+tr.task-done > td.due, tr.task-done > td.description {
   text-decoration: line-through;
 }
-tr.task-deadline > td.deadline, tr.task-deadline > td.content {
+tr.task-due > td.deadline, tr.task-due > td.description {
   color: red;
   font-weight: bold;
 }

@@ -2,13 +2,14 @@ class Task
   include ActiveModel::Model
 
   attr_accessor :uuid, :description, :project, :due, :priority
-  attr_reader   :status, :entry, :modified, :end_date, :urgency, :errors
+  attr_reader   :status, :entry, :modified, :end_date, :urgency
 
   def self.all
     Parser.parse
   end
 
   def initialize(task_hash = {})
+    @id          = task_hash['id']
     @uuid        = task_hash['uuid']
     @description = task_hash['description']
     @project     = task_hash['project']
@@ -19,7 +20,6 @@ class Task
     @modified    = task_hash['modify']
     @end_date    = task_hash['end']
     @urgency     = task_hash['urgency']
-    @errors      = []
   end
 
   def self.find(uuid)
@@ -43,7 +43,7 @@ class Task
   end
 
   def done!
-    `task #{@uuid} done`
+    `task #{@id} done` if @id != '0'
   end
 
   def done?
@@ -89,14 +89,18 @@ class Task
     DATE_COLUMNS = %w(due entry modified end)
 
     def parse
-      JSON.parse(`task export`).map do |task_hash|
+      JSON.parse(`task export`).map { |task_hash|
         date_converted_hash = task_hash.slice(*DATE_COLUMNS).reduce({}) { |acc, (key, val)|
           # acc.merge(key => Time.iso8601(val))
           acc.merge(key => Time.strptime(val, '%Y%m%dT%H%M%SZ') + 9.hours)
         }
 
         ::Task.new( task_hash.merge(date_converted_hash) )
-      end
+      }.
+      # reject deleted tasks
+      reject { |task|
+        task.status == 'deleted'
+      }
     end
   end
 end

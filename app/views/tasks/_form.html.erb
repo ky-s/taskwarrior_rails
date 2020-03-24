@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="input-group mb-3">
-    <%#= form.date_field :due, value: task.due || Date.today, class: 'form-control col-2' %>
-    <%#= form.text_field :description, class: 'form-control', placeholder: 'Write down your TODO here'  %>
+    <%= form.date_field :due, value: task.due || Date.today, class: 'form-control col-2' %>
+    <%= form.text_field :description, class: 'form-control', placeholder: 'Write down your TODO here'  %>
     <div class="actions input-group-append">
       <%= form.submit class: 'btn btn-primary' %>
     </div>
