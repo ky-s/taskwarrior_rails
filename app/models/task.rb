@@ -86,20 +86,24 @@ class Task
   module Parser
     module_function
 
-    DATE_COLUMNS = %w(due entry modified end)
+    TIME_COLUMNS = %w(entry modified end)
 
     def parse
       JSON.parse(`task export`).map { |task_hash|
-        date_converted_hash = task_hash.slice(*DATE_COLUMNS).reduce({}) { |acc, (key, val)|
-          # acc.merge(key => Time.iso8601(val))
-          acc.merge(key => Time.strptime(val, '%Y%m%dT%H%M%SZ') + 9.hours)
-        }
-
         # abs_id is task_warrior id
         task_hash['abs_id'] = task_hash['id']
         task_hash['id']     = task_hash['uuid']
 
-        ::Task.new( task_hash.merge(date_converted_hash) )
+        if task_hash['due']
+          task_hash['due']    = (Time.strptime(task_hash['due'], '%Y%m%dT%H%M%SZ') + 9.hours).to_date
+        end
+
+        time_converted_hash = task_hash.slice(*TIME_COLUMNS).reduce({}) { |acc, (key, val)|
+          # acc.merge(key => Time.iso8601(val))
+          acc.merge(key => Time.strptime(val, '%Y%m%dT%H%M%SZ') + 9.hours)
+        }
+
+        ::Task.new( task_hash.merge(time_converted_hash) )
       }.
       # reject deleted tasks
       reject { |task|
