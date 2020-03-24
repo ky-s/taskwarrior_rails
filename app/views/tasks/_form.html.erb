@@ -1,0 +1,25 @@
+<%= form_with(model: task, id: 'task-form') do |form| %>
+  <% if task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+        <% task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="input-group mb-3">
+    <%#= form.date_field :due, value: task.due || Date.today, class: 'form-control col-2' %>
+    <%#= form.text_field :description, class: 'form-control', placeholder: 'Write down your TODO here'  %>
+    <div class="actions input-group-append">
+      <%= form.submit class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $('#task_description').focus();
+</script>

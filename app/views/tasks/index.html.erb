@@ -1,0 +1,58 @@
+<p id="notice"><%= notice %></p>
+<div class="card m-2 mx-auto" style="width: 65%">
+  <div class="card-header">
+    <h3>TODO List</h3>
+  </div>
+
+  <div class="card-body">
+    <%= render 'form', task: @new_task %>
+
+    <div class="custom-control custom-switch">
+      <%= check_box_tag :show_done, true, @show_done, class: "custom-control-input" %>
+      <%= label_tag :show_done, 'Show done', class: "custom-control-label" %>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="th-sm" style="width: 7%"><%= label :task, :done %></th>
+            <th class="th-sm" style="width: 16%"><%= label :task, :deadline %></th>
+            <th class="th-sm"><%= label :task, :content %></th>
+            <th class="th-sm" style="width: 15%">action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%= render @tasks %>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+  </div>
+</div>
+
+<script>
+  function toggleShowDone() {
+    if ($('#show_done').prop("checked")) {
+      $('tr.task-done').show();
+    } else {
+      $('tr.task-done').hide();
+    }
+  };
+
+  $('#show_done').change(toggleShowDone);
+
+  toggleShowDone();
+</script>
+
+<style>
+tr.task-done > td.deadline, tr.task-done > td.content {
+  text-decoration: line-through;
+}
+tr.task-deadline > td.deadline, tr.task-deadline > td.content {
+  color: red;
+  font-weight: bold;
+}
+</style>

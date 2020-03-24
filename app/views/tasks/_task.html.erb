@@ -1,0 +1,56 @@
+<%= task_tr(task) do %>
+  <td>
+    <%= check_box :task, :done, { id: "done-checkbox-#{task.uuid}", class: 'done-checkbox', checked: task.done? }, "true", "false" %>
+  </td>
+  <td class="due">
+    <%= task.due&.strftime("%Y-%m-%d") %>
+  </td>
+  <td class="description">
+    <%= task.description %>
+  </td>
+  <td>
+    <%#= link_to 'Edit', edit_task_path(task), class: 'btn btn-warning' %>
+    <%#= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+  </td>
+<% end %>
+
+<!-- script>
+  $("#done-checkbox-<%= task.uuid %>").change(function() {
+    return ajaxUpdateDone(<%= task.uuid %>, $(this).prop("checked"));
+  });
+
+  // trigger checkbox on td clicked.
+  $("td:has(#done-checkbox-<%= task.uuid %>)").click(function() {
+    $(this).children('.done-checkbox').trigger('click');
+  });
+
+  // Stop propagation.
+  $("#done-checkbox-<%= task.uuid %>").click(function(event) {
+    event.stopPropagation();
+  });
+
+  if (typeof ajaxUpdateDone != 'function') {
+    function ajaxUpdateDone(id, done) {
+      console.log('ajaxUpdateDone');
+      console.log('id = ' + id);
+      console.log('done = ' + done);
+      $.ajax({
+        url: "tasks/" + id,
+        data: { task: { done: done } },
+        type: "PATCH",
+        dataType: 'json'
+      }).then(
+        data => {
+          if (done) {
+              $("#task-" + id).addClass("table-success");
+              $("#task-" + id).addClass("task-done");
+          } else {
+              $("#task-" + id).removeClass("table-success");
+              $("#task-" + id).removeClass("task-done");
+          }
+        },
+        error => alert("更新に失敗しました。")
+      );
+    }
+  }
+</script -->
