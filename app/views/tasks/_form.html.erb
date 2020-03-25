@@ -11,20 +11,59 @@
     </div>
   <% end %>
 
+  <div class="row">
+    <div class="col-2">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Due</span>
+        </div>
+        <%= form.date_field :due, value: task.due || Date.today, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Project</span>
+        </div>
+        <%= form.text_field :project, class: 'form-control', placeholder: 'Project', list: 'project_list', autocomplete: 'off' %>
+        <datalist id='project_list'>
+          <% Task.projects.each do |project| %>
+            <option value="<%= project %>">
+          <% end %>
+        </datalist>
+      </div>
+    </div>
+
+    <div class="col-2">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Priority</span>
+        </div>
+        <%= form.select :priority, [nil, 'H', 'M', 'L'], {}, class: 'custom-select' %>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Tags</span>
+        </div>
+        <%= form.text_field :tags, class: 'form-control', placeholder: 'Comma-separated' %>
+      </div>
+    </div>
+  </div>
+
   <div class="input-group mb-3">
-    <%= form.date_field :due, value: task.due || Date.today, class: 'form-control col-2' %>
-    <%= form.text_field :project, class: 'form-control col-2', placeholder: 'Project', list: 'project_list', autocomplete: 'off' %>
-    <datalist id='project_list'>
-      <% Task.projects.each do |project| %>
-        <option value="<%= project %>">
-      <% end %>
-    </datalist>
-    <%= form.select :priority, [nil, 'H', 'M', 'L'], class: 'custom-select col-1' %>
+    <div class="input-group-prepend">
+      <span class="input-group-text">Description</span>
+    </div>
     <%= form.text_field :description, class: 'form-control', placeholder: 'Write down your TODO here' %>
     <div class="actions input-group-append">
       <%= form.submit class: 'btn btn-primary' %>
     </div>
   </div>
+
 <% end %>
 
 <script>

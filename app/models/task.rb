@@ -36,16 +36,33 @@ class Task
   end
 
   def create
-    command = "task add due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} priority:#{@priority} #{@description}"
-    puts command
+    command = <<~COMMAND
+      task add                            \
+        due:#{@due&.strftime('%Y-%m-%d')} \
+        project:#{@project}               \
+        priority:#{@priority}             \
+        tags:"#{@tags}"                   \
+        #{@description}
+    COMMAND
+
+    Rails.logger.debug command
     system command
   end
 
   def update(task_hash)
-    @due, @project, @description, @priority =
-      task_hash.values_at('due', 'project', 'description', 'priority')
-    command = "task #{@id} modify due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} priority:#{@priority} #{@description}"
-    puts command
+    @due, @project, @description, @priority, @tags =
+      task_hash.values_at('due', 'project', 'description', 'priority', 'tags')
+
+    command = <<~COMMAND
+      task #{@id} modify                  \
+        due:#{@due&.strftime('%Y-%m-%d')} \
+        project:#{@project}               \
+        priority:#{@priority}             \
+        tags:"#{@tags}"                   \
+        #{@description}
+    COMMAND
+
+    Rails.logger.debug command
     system command
   end
 
@@ -105,8 +122,10 @@ class Task
         task_hash['abs_id'] = task_hash['id']
         task_hash['id']     = task_hash['uuid']
 
+        task_hash['tags']   = task_hash['tags']&.join(',')
+
         if task_hash['due']
-          task_hash['due']    = (Time.strptime(task_hash['due'], '%Y%m%dT%H%M%SZ') + 9.hours).to_date
+          task_hash['due'] = (Time.strptime(task_hash['due'], '%Y%m%dT%H%M%SZ') + 9.hours).to_date
         end
 
         time_converted_hash = task_hash.slice(*TIME_COLUMNS).reduce({}) { |acc, (key, val)|

@@ -11,13 +11,19 @@
   <td class="priority">
     <%= task.priority %>
   </td>
+  <td class="tags">
+    <%= task.tags %>
+  </td>
   <td class="description">
     <%= task.description %>
   </td>
   <td>
     <% if task.id.present? # Task#create 直後の uuid の取得ができていないので %>
-      <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-warning' %>
-      <button class="btn btn-danger" data-confirm='Are you sure?' onclick="ajaxTaskDestroy('<%= task.id %>')">Destroy</button>
+      <%= link_to '<i class="fa fa-edit" ></i>'.html_safe, edit_task_path(task), class: 'btn btn-warning' %>
+
+      <button class="btn btn-danger" data-confirm='Are you sure?' onclick="ajaxTaskDestroy('<%= task.id %>')">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </button>
     <% end %>
   </td>
 <% end %>
