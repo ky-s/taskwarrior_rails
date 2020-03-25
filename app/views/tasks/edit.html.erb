@@ -1,5 +1,11 @@
-<h1>Editing Task</h1>
+<div class="card m-2 mx-auto" style="width: 80%">
+  <div class="card-header">
+    <h3>
+      <%= link_to 'Taskwarrior List', tasks_path %> > Edit
+    <h3>
+  </div>
 
-<%= render 'form', task: @task %>
-
-<%= link_to 'Back', tasks_path %>
+  <div class="card-body">
+    <%= render 'form', task: @task %>
+  </div>
+</div>
