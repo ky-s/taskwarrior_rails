@@ -1,7 +1,7 @@
 class Task
   include ActiveModel::Model
 
-  attr_accessor :id, :description, :project, :due, :priority
+  attr_accessor :id, :description, :project, :due, :priority, :tags
   attr_reader   :status, :entry, :modified, :end_date, :urgency
 
   def self.all
@@ -24,6 +24,7 @@ class Task
     @modified    = task_hash['modify']
     @end_date    = task_hash['end']
     @urgency     = task_hash['urgency']
+    @tags        = task_hash['tags']
   end
 
   def self.find(id)
@@ -36,10 +37,15 @@ class Task
 
   def create
     `task add due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} #{@description}`
+    true
   end
 
-  def update
+  def update(task_hash)
+    @due         = task_hash['due']
+    @project     = task_hash['project']
+    @description = task_hash['description']
     `task #{@id} modify due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} #{@description}`
+    true
   end
 
   def destroy
