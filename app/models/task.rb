@@ -9,7 +9,7 @@ class Task
   end
 
   def self.projects
-    self.all.map { |task| task.project }.uniq
+    self.all.map(&:project).uniq
   end
 
   def initialize(task_hash = {})
