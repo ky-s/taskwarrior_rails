@@ -6,14 +6,18 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+2.7.0
 
 * System dependencies
+yarn が必要
 
 * Configuration
 
 * Database creation
+unuse, back-end is taskwarrior.
 
 * Database initialization
+unuse, back-end is taskwarrior.
 
 * How to run the test suite
 
@@ -22,3 +26,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+```
+bundle install
+bin/rails s
+```
