@@ -13,7 +13,7 @@
 
   <div class="input-group mb-3">
     <%= form.date_field :due, value: task.due || Date.today, class: 'form-control col-2' %>
-    <%= form.text_field :project, value: task.project, class: 'form-control col-2', placeholder: 'Project', list: 'project_list' %>
+    <%= form.text_field :project, value: task.project, class: 'form-control col-2', placeholder: 'Project', list: 'project_list', autocomplete: 'off' %>
     <datalist id='project_list'>
       <% Task.projects.each do |project| %>
         <option value="<%= project %>">
@@ -27,5 +27,5 @@
 <% end %>
 
 <script>
-  $('#task_description').focus();
+  $('#task_project').focus();
 </script>
