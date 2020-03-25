@@ -82,33 +82,8 @@ class Task
     @due.present? && @due >= Date.today
   end
 
-  def to_model
-    self
-  end
-
-  def model_name
-    Name.new
-  end
-
   def persisted?
     @id.present?
-  end
-
-  # duck typing ActiveModel::Name
-  class Name
-    attr_reader :name, :klass, :singular, :plural, :human, :collection, :param_key, :i18n_key, :route_key, :singular_route_key
-    def initialize
-      @name               = 'Task'
-      @klass              = Task
-      @singular           = 'task'
-      @plural             = 'tasks'
-      @human              = 'Task'
-      @collection         = 'tasks'
-      @param_key          = 'task'
-      @i18n_key           = :task
-      @route_key          = 'tasks'
-      @singular_route_key = 'task'
-    end
   end
 
   module Parser
