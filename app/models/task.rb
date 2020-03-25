@@ -36,16 +36,17 @@ class Task
   end
 
   def create
-    `task add due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} #{@description}`
-    true
+    command = "task add due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} priority:#{@priority} #{@description}"
+    puts command
+    system command
   end
 
   def update(task_hash)
-    @due         = task_hash['due']
-    @project     = task_hash['project']
-    @description = task_hash['description']
-    `task #{@id} modify due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} #{@description}`
-    true
+    @due, @project, @description, @priority =
+      task_hash.values_at('due', 'project', 'description', 'priority')
+    command = "task #{@id} modify due:#{@due&.strftime('%Y-%m-%d')} project:#{@project} priority:#{@priority} #{@description}"
+    puts command
+    system command
   end
 
   def destroy

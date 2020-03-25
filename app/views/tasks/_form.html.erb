@@ -13,12 +13,13 @@
 
   <div class="input-group mb-3">
     <%= form.date_field :due, value: task.due || Date.today, class: 'form-control col-2' %>
-    <%= form.text_field :project, value: task.project, class: 'form-control col-2', placeholder: 'Project', list: 'project_list', autocomplete: 'off' %>
+    <%= form.text_field :project, class: 'form-control col-2', placeholder: 'Project', list: 'project_list', autocomplete: 'off' %>
     <datalist id='project_list'>
       <% Task.projects.each do |project| %>
         <option value="<%= project %>">
       <% end %>
     </datalist>
+    <%= form.select :priority, [nil, 'H', 'M', 'L'], class: 'custom-select col-1' %>
     <%= form.text_field :description, class: 'form-control', placeholder: 'Write down your TODO here' %>
     <div class="actions input-group-append">
       <%= form.submit class: 'btn btn-primary' %>
