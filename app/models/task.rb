@@ -42,13 +42,14 @@ class Task
   end
 
   def create
+    # *** VULNERABLE ***
     command = <<~COMMAND
-      task add                            \
-        due:#{@due&.strftime('%Y-%m-%d')} \
-        project:#{@project}               \
-        priority:#{@priority}             \
-        tags:"#{@tags}"                   \
-        #{@description}
+      task add                              \
+        due:"#{@due&.strftime('%Y-%m-%d')}" \
+        project:"#{@project}"               \
+        priority:"#{@priority}"             \
+        tags:"#{@tags}"                     \
+        "#{@description}"
     COMMAND
 
     Rails.logger.debug command
@@ -59,13 +60,14 @@ class Task
     @due, @project, @description, @priority, @tags =
       task_hash.values_at('due', 'project', 'description', 'priority', 'tags')
 
+    # *** VULNERABLE ***
     command = <<~COMMAND
-      task #{@id} modify                  \
-        due:#{@due&.strftime('%Y-%m-%d')} \
-        project:#{@project}               \
-        priority:#{@priority}             \
-        tags:"#{@tags}"                   \
-        #{@description}
+      task #{@id} modify                    \
+        due:"#{@due&.strftime('%Y-%m-%d')}" \
+        project:"#{@project}"               \
+        priority:"#{@priority}"             \
+        tags:"#{@tags}"                     \
+        "#{@description}"
     COMMAND
 
     Rails.logger.debug command
