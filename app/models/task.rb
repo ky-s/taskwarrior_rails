@@ -5,7 +5,9 @@ class Task
   attr_reader   :status, :entry, :modified, :end_date, :urgency
 
   def self.all
-    Parser.parse
+    Parser.parse.sort_by { |task|
+      [task.done? ? 1 : 0, task.due || 0, ['H', 'M', 'L', nil].index(task.priority)]
+    }
   end
 
   def self.projects
@@ -79,7 +81,7 @@ class Task
   end
 
   def deadline?
-    @due.present? && @due >= Date.today
+    @due.present? && @due <= Date.today
   end
 
   def persisted?

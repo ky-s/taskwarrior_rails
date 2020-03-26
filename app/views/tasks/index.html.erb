@@ -51,10 +51,10 @@
 </script>
 
 <style>
-tr.task-done > td.due, tr.task-done > td.description {
+tr.task-done > td:not(.action) {
   text-decoration: line-through;
 }
-tr.task-due > td.deadline, tr.task-due > td.description {
+tr.task-deadline > td:not(.action) {
   color: red;
   font-weight: bold;
 }
