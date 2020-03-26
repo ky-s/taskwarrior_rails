@@ -5,21 +5,24 @@ application up and running.
 
 Things you may want to cover:
 
+
 * Ruby version
-2.7.0
+- 2.7.0
 
 * System dependencies
-yarn が必要
+- yarn が必要
+- Taskwarrior 2.5.1
 
 * Configuration
 
 * Database creation
-unuse, back-end is taskwarrior.
+unuse. Back-end is Taskwarrior.
 
 * Database initialization
-unuse, back-end is taskwarrior.
+unuse. Back-end is Taskwarrior.
 
 * How to run the test suite
+TODO: write test code
 
 * Services (job queues, cache servers, search engines, etc.)
 
@@ -27,6 +30,8 @@ unuse, back-end is taskwarrior.
 
 * ...
 
+
+installing Taskwarrior
 
 ```
 bundle install
