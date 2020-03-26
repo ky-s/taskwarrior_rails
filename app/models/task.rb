@@ -8,7 +8,7 @@ class Task
     Parser.parse.sort_by { |task|
       [
         task.done? ? 1 : 0,
-        task.due || Date.new(0),
+        task.due || Date.new(2999, 12, 31),
         ['H', 'M', 'L', nil].index(task.priority)
       ]
     }
