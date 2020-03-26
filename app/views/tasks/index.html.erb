@@ -39,15 +39,15 @@
 <script>
   function toggleShowDone() {
     if ($('#show_done').prop("checked")) {
-      $('tr.task-done').show();
+      $('tr.task-done').removeClass('task-hidden');
+      // $('tr.task-done').show();
     } else {
-      $('tr.task-done').hide();
+      $('tr.task-done').addClass('task-hidden');
+      // $('tr.task-done').hide();
     }
   };
 
   $('#show_done').change(toggleShowDone);
-
-  toggleShowDone();
 </script>
 
 <style>
@@ -57,5 +57,9 @@ tr.task-done > td:not(.action) {
 tr.task-deadline > td:not(.action) {
   color: red;
   font-weight: bold;
+}
+
+.task-hidden {
+  display: none;
 }
 </style>
