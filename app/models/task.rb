@@ -6,7 +6,11 @@ class Task
 
   def self.all
     Parser.parse.sort_by { |task|
-      [task.done? ? 1 : 0, task.due || 0, ['H', 'M', 'L', nil].index(task.priority)]
+      [
+        task.done? ? 1 : 0,
+        task.due || Date.new(0),
+        ['H', 'M', 'L', nil].index(task.priority)
+      ]
     }
   end
 
