@@ -1,4 +1,4 @@
-<%= task_tr(task) do %>
+<%= content_tag :tr, id: "task-#{task.id}", class: task_tr_classes(task) do %>
   <td>
     <%= check_box :task, :done, { id: "done-checkbox-#{task.id}", class: 'done-checkbox', checked: task.done? }, "true", "false" %>
   </td>
@@ -44,6 +44,7 @@
     event.stopPropagation();
   });
 
+  // Prevension of multiple definitions
   if (typeof ajaxUpdateDone != 'function') {
   // done を戻す処理はできてないです。
     function ajaxUpdateDone(id, done) {
@@ -66,8 +67,8 @@
 
 <!-- task destroy action -->
 <script>
+  // Prevension of multiple definitions
   if (typeof ajaxTaskDestroy != 'function') {
-  // done を戻す処理はできてないです。
     function ajaxTaskDestroy(id) {
       console.log('ajaxTaskDestroy');
       console.log('id = ' + id);
