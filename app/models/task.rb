@@ -2,7 +2,7 @@
 class Task
   include ActiveModel::Model
 
-  attr_accessor :id, :description, :project, :due, :priority, :tags
+  attr_accessor :relative_id, :id, :description, :project, :due, :priority, :tags
   attr_reader   :status, :entry, :modified, :end_date, :urgency
 
   ########################
