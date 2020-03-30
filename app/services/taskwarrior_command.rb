@@ -33,7 +33,7 @@ module TaskwarriorCommand
   end
 
   def done(task)
-    system("task #{task.relative_id} done") if task.relative_id != '0'
+    system("task #{task.id} done") unless task.done?
   end
 
   def delete(task)
