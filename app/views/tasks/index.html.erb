@@ -17,7 +17,10 @@
         <thead>
           <tr>
             <th class="th-sm" style="width: 7%"><%= label :task, :done %></th>
-            <th class="th-sm" style="width: 10%"><%= label :task, :due %></th>
+            <th class="th-sm" style="width: 10%">
+              <%= label :task, :due %>
+              <%= link_to 'Redue', tasks_redue_path, method: 'post', class: 'btn btn-sm btn-danger' %>
+          </th>
             <th class="th-sm" style="width: 10%"><%= label :task, :project %></th>
             <th class="th-sm" style="width: 5%"><%= label :task, :priority %></th>
             <th class="th-sm" style="width: 10%"><%= label :task, :tags %></th>

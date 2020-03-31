@@ -61,11 +61,11 @@ class Task
 
   # ActiveRecord-duck
   def update(task_hash)
-    @description = task_hash['description']
-    @project     = task_hash['project']
-    @due         = task_hash['due']
-    @priority    = task_hash['priority']
-    @tags        = task_hash['tags']
+    @description = task_hash.fetch('description', @description)
+    @project     = task_hash.fetch('project',     @project    )
+    @due         = task_hash.fetch('due',         @due        )
+    @priority    = task_hash.fetch('priority',    @priority   )
+    @tags        = task_hash.fetch('tags',        @tagas      )
 
     TaskwarriorCommand.modify(self)
   end

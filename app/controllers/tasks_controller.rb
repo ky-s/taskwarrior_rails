@@ -33,6 +33,14 @@ class TasksController < ApplicationController
     @task.done!
   end
 
+  def redue
+    Task.all.reject(&:done?).select(&:deadline?).each do |task|
+      task.update('due' => Date.today)
+    end
+
+    redirect_to action: :index
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
