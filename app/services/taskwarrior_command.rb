@@ -7,6 +7,12 @@ module TaskwarriorCommand
     end
   end
 
+  def latest
+    `task +LATEST export`.then do |json|
+      Parser.parse(json).first
+    end
+  end
+
   def add(task)
     system(
       'task', 'add',

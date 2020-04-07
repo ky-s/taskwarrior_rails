@@ -57,6 +57,8 @@ class Task
   # ActiveRecord-duck
   def create
     TaskwarriorCommand.add(self)
+    # id (Taskwarrior:uuid update)
+    @id = TaskwarriorCommand.latest.id
   end
 
   # ActiveRecord-duck
